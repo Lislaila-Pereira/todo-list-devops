@@ -17,6 +17,10 @@ const TodoForm = () => {
             });
     };
 
+    const handleClear = () => {
+        setTitle('');
+    };
+
     return (
         <form onSubmit={handleSubmit} className="todo-form">
             <input
@@ -27,7 +31,10 @@ const TodoForm = () => {
                 required
                 className="input"
             />
-            <button type="submit" className="submit-button">Adicionar</button>
+            <div className="button-group">
+                <button type="submit" className="submit-button">Adicionar</button>
+                <button type="button" onClick={handleClear} className="clear-button">Limpar</button>
+            </div>
         </form>
     );
 };

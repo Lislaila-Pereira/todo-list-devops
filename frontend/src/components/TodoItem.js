@@ -47,18 +47,22 @@ const TodoItem = ({ todo, refreshTodos }) => {
                         onChange={(e) => setTitle(e.target.value)}
                         className="input-edit"
                     />
-                    <button className="save-button" onClick={handleEdit}>Salvar</button>
-                    <button className="cancel-button" onClick={() => setIsEditing(false)}>Cancelar</button>
+                    <div>
+                        <button className="save-button" onClick={handleEdit}>Salvar</button>
+                        <button className="cancel-button" onClick={() => setIsEditing(false)}>Cancelar</button>
+                    </div>
                 </div>
             ) : (
                 <div className="item-container">
-                    <input
-                        type="checkbox"
-                        checked={completed}
-                        onChange={handleToggle}
-                        className="checkbox"
-                    />
-                    <span className={completed ? 'completed' : ''}>{todo.title}</span>
+                    <div>
+                        <input
+                            type="checkbox"
+                            checked={completed}
+                            onChange={handleToggle}
+                            className="checkbox"
+                        />
+                        <span className={completed ? 'completed' : ''}>{todo.title}</span>
+                    </div>
                     <div className="button-group">
                         <button className="edit-button" onClick={() => setIsEditing(true)}>Editar</button>
                         <button className="delete-button" onClick={handleDelete}>Deletar</button>
