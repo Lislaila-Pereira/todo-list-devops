@@ -9,7 +9,6 @@ const TodoItem = ({ todo, refreshTodos }) => {
     const handleDelete = () => {
         axios.delete(`/api/todos/${todo.id}`)
             .then(() => {
-                window.location.reload();
                 refreshTodos();
             })
             .catch(error => {
@@ -31,7 +30,7 @@ const TodoItem = ({ todo, refreshTodos }) => {
         axios.put(`/api/todos/${todo.id}`, { title, completed })
             .then(() => {
                 setIsEditing(false);
-                window.location.reload();
+                refreshTodos();
             })
             .catch(error => {
                 console.error('Erro ao atualizar tarefa:', error);
@@ -39,27 +38,31 @@ const TodoItem = ({ todo, refreshTodos }) => {
     };
 
     return (
-        <li>
+        <li className="todo-item">
             {isEditing ? (
-                <div>
+                <div className="edit-container">
                     <input
                         type="text"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
+                        className="input-edit"
                     />
-                    <button onClick={handleEdit}>Salvar</button>
-                    <button onClick={() => setIsEditing(false)}>Cancelar</button>
+                    <button className="save-button" onClick={handleEdit}>Salvar</button>
+                    <button className="cancel-button" onClick={() => setIsEditing(false)}>Cancelar</button>
                 </div>
             ) : (
-                <div>
+                <div className="item-container">
                     <input
                         type="checkbox"
                         checked={completed}
                         onChange={handleToggle}
+                        className="checkbox"
                     />
-                    {todo.title}
-                    <button onClick={() => setIsEditing(true)}>Editar</button>
-                    <button onClick={handleDelete}>Deletar</button>
+                    <span className={completed ? 'completed' : ''}>{todo.title}</span>
+                    <div className="button-group">
+                        <button className="edit-button" onClick={() => setIsEditing(true)}>Editar</button>
+                        <button className="delete-button" onClick={handleDelete}>Deletar</button>
+                    </div>
                 </div>
             )}
         </li>

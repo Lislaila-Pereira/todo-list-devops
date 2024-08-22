@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const TodoForm = ({ refreshTodos }) => {
+const TodoForm = () => {
     const [title, setTitle] = useState('');
 
     const handleSubmit = (event) => {
@@ -18,15 +18,16 @@ const TodoForm = ({ refreshTodos }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="todo-form">
             <input
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Nova tarefa"
                 required
+                className="input"
             />
-            <button type="submit">Add</button>
+            <button type="submit" className="submit-button">Adicionar</button>
         </form>
     );
 };
