@@ -8,7 +8,11 @@ const TodoList = () => {
     const refreshTodos = () => {
         axios.get('/api/todos')
             .then(response => {
-                setTodos(response.data);
+                if (Array.isArray(response.data)) {
+                    setTodos(response.data);
+                } else {
+                    setTodos([]);
+                }
             })
             .catch(error => {
                 console.error('Erro ao buscar tarefas:', error);
@@ -21,9 +25,13 @@ const TodoList = () => {
 
     return (
         <ul className="todo-list">
-            {todos.map(todo => (
-                <TodoItem key={todo.id} todo={todo} refreshTodos={refreshTodos} />
-            ))}
+            {Array.isArray(todos) && todos.length > 0 ? (
+                todos.map(todo => (
+                    <TodoItem key={todo.id} todo={todo} refreshTodos={refreshTodos} />
+                ))
+            ) : (
+                <p>Não há tarefas disponíveis.</p>
+            )}
         </ul>
     );
 };
