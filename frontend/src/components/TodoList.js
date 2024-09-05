@@ -1,22 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import TodoItem from './TodoItem';
+import { api } from '../api';
 
 const TodoList = () => {
     const [todos, setTodos] = useState([]);
 
-    const refreshTodos = () => {
-        axios.get('/api/todos')
-            .then(response => {
-                if (Array.isArray(response.data)) {
-                    setTodos(response.data);
-                } else {
-                    setTodos([]);
-                }
-            })
-            .catch(error => {
-                console.error('Erro ao buscar tarefas:', error);
-            });
+    const refreshTodos = async () => {
+        try {
+            const response = await axios.get(`${api}/api/todos`);
+            setTodos(Array.isArray(response.data) ? response.data : []);
+        } catch (error) {
+            console.error('Erro ao buscar tarefas:', error);
+            setTodos([]); // Limpa a lista em caso de erro
+        }
     };
 
     useEffect(() => {
@@ -25,7 +22,7 @@ const TodoList = () => {
 
     return (
         <ul className="todo-list">
-            {Array.isArray(todos) && todos.length > 0 ? (
+            {todos.length > 0 ? (
                 todos.map(todo => (
                     <TodoItem key={todo.id} todo={todo} refreshTodos={refreshTodos} />
                 ))

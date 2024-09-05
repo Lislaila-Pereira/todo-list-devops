@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import axios from 'axios';
+import { api } from '../api';
 
 const TodoForm = () => {
     const [title, setTitle] = useState('');
 
-    const handleSubmit = (event) => {
+    const handleSubmit = useCallback((event) => {
         event.preventDefault();
-
-        axios.post('/api/todos', { title })
+        axios.post(`${api}/api/todos`, { title })
             .then(() => {
                 setTitle('');
-                window.location.reload();
+                window.location.reload(); // Idealmente, você deve atualizar a lista de tarefas sem recarregar a página.
             })
             .catch(error => {
                 console.error('Erro ao criar tarefa:', error);
             });
-    };
+    }, [title]);
 
     const handleClear = () => {
         setTitle('');
